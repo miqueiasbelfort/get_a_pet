@@ -12,14 +12,14 @@ const imageStorage = multer.diskStorage({
 
 
         } else if (req.baseUrl.includes("pets")){ // Se não vai ser pets
-            folder = "pet"
+            folder = "pets"
         }
 
         cb(null, `public/images/${folder}`) //O caminho da image
 
     },
     filename: function (req, file, cb){ //Salvando a imagem com a data atual
-        cb(null, Date.now() + path.extname(file.originalname)) 
+        cb(null, Date.now() + String(Math.random() * 1000) + path.extname(file.originalname)) 
     }
 }) // 2656594532564.jpg
 
