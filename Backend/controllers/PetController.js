@@ -244,4 +244,79 @@ module.exports = class PetController {
         res.status(200).json({message: "Pet atualizado com sucesso!"})
     }
 
+    //Marcar agendamento
+    static async schedule(req, res){
+
+        const id = req.params.id
+
+        // checando se o pet existe
+        const pet = await Pet.findOne({_id: id})
+
+        if(!pet) {
+            res.status(404).json({message: "Pet não encontrado!"})
+            return
+        }
+
+        //Se é o usuário que cadastrou o pet
+        const token = getToken(req)
+        const user = await getUserByToken(token)
+
+        if(pet.user._id.equals(user._id)) { // Se o id do user dentro de pet for diferente ao id do usuário que foi pego pelo token
+            res.status(422).json({message: "Você não pode agendar uma visita com seu proprio Pet!"})
+            return
+        }
+
+
+        // checando se o usuário já agendou a visita
+        if(pet.adopter) {
+            if(pet.adopter._id.equals(user._id)){
+                res.status(422).json({message: "Você já agendou uma visita para esse Pet!"})
+                return
+            }
+        }
+
+        // adicionar usuário como adotante do pet
+        pet.adopter = {
+            _id: user._id,
+            name: user.name,
+            image: user.image
+        }
+
+        await Pet.findByIdAndUpdate(id, pet)
+        res.status(200).json({
+            message: `A visita foi agendada com sucesso, entre em contato com ${pet.user.name} pelo telefone ${pet.user.phone}`
+        })
+
+    }
+
+    //Concluizão da adoção
+    static async concludeAdoption(req, res){
+
+        const id = req.params.id
+
+        // checando se o pet existe
+        const pet = await Pet.findOne({_id: id})
+
+        if(!pet) {
+            res.status(404).json({message: "Pet não encontrado!"})
+            return
+        }
+
+        //Se é o usuário que cadastrou o pet
+        const token = getToken(req)
+        const user = await getUserByToken(token)
+
+        if(pet.user._id.toString() !== user._id.toString()) { // Se o id do user dentro de pet for diferente ao id do usuário que foi pego pelo token
+            res.status(422).json({message: "Houve um problema em processar a sua solicitação, tente novamente!"})
+            return
+        }
+
+        pet.available = false
+
+        await Pet.findByIdAndUpdate(id, pet)
+        res.status(200).json({
+            message: "Parabéns! O cliclo de adoção foi finalizado com sucesso!"
+        })
+
+    }
 }
