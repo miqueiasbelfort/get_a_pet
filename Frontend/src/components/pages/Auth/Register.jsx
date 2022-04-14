@@ -1,4 +1,5 @@
 import {Link} from "react-router-dom"
+import { useState } from "react"
 
 //components
 import Input from "../../form/Input"
@@ -9,14 +10,22 @@ import styles from "../../form/Form.module.css"
 
 const Register = () => {
 
-  function handleChange(e){
+  const [user, setUser] = useState({})
 
+  function handleChange(e){ //Pegar todos os elementos do form
+    setUser({...user, [e.target.name]: e.target.value})
+  }
+
+  function handleSubmit(e){ //Quando o evento de submit for ativado
+    e.preventDefault()
+    //Enviar o usuário par o banco
+    console.log(user)
   }
 
   return (
     <section className={styles.form_container}>
         <h1>Registrar</h1>
-        <form>
+        <form onSubmit={handleSubmit /*O onSubmit é o evento de quando o form for enviado*/}>
             <Input
               text="Nome"
               type="text"
