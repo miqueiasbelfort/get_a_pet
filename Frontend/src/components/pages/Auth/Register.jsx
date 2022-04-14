@@ -1,16 +1,18 @@
 import {Link} from "react-router-dom"
-import { useState } from "react"
+import { useContext, useState } from "react"
 
 //components
 import Input from "../../form/Input"
-
 //css
 import styles from "../../form/Form.module.css"
+//Context
+import { Context } from "../../../context/UserContext"
 
 
 const Register = () => {
 
   const [user, setUser] = useState({})
+  const { register } = useContext(Context)
 
   function handleChange(e){ //Pegar todos os elementos do form
     setUser({...user, [e.target.name]: e.target.value})
@@ -19,7 +21,7 @@ const Register = () => {
   function handleSubmit(e){ //Quando o evento de submit for ativado
     e.preventDefault()
     //Enviar o usuário par o banco
-    console.log(user)
+    register(user)
   }
 
   return (

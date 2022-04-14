@@ -3,7 +3,7 @@ import api from "../utils/api"
 
 // hooks
 import { useState, useEffect } from "react"
-import {useHistory} from "react-router-dom"
+//import {useHistory} from "react-router-dom"
 
 export default function useAuth() {
 
@@ -20,8 +20,7 @@ export default function useAuth() {
             console.log(err)
         }
 
-        return {register}
-
     }
+    return {register}
 
 }
