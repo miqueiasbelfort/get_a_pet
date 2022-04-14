@@ -1,0 +1,23 @@
+import React from 'react'
+
+//css
+import styles from "./Input.module.css"
+
+const Input = ({type, text, name, placeholder, hnadleOnChange, value, multiple}) => {
+  return (
+    <div className={styles.form_control}>
+      <label htmlFor={name}>{text}:</label>
+      <input 
+            type={type} 
+            name={name} 
+            id={name} 
+            placeholder={placeholder} 
+            onChange={hnadleOnChange}
+            value={value}
+            {...(multiple ? {multiple} : '')}
+        />
+    </div>
+  )
+}
+
+export default Input
