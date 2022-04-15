@@ -32,6 +32,7 @@
 }
 .navbar ul li:hover{
     background: #16479d;
+    color: #fff;
 }
 .navbar ul li:hover > a{
     color: #fff;
