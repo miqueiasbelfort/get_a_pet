@@ -8,6 +8,7 @@ import styles from "./Profile.module.css"
 import FormStyles from "../../form/Form.module.css"
 //components
 import Input from "../../form/Input"
+import RoundedImage from "../../layout/RoundedImage"
 
 //hook
 import useFlashMessage from "../../../hooks/useFlashMessage"
@@ -18,6 +19,7 @@ const Profile = () => {
     const [user, setUser] = useState('')
     const [token] = useState(localStorage.getItem('token') || '')
     const {setFlashMessage} = useFlashMessage()
+    const [preview, setPreview] = useState("")
 
 
     useEffect(() => {
@@ -33,6 +35,7 @@ const Profile = () => {
     }, [token])
 
     function onFileChange(e){
+        setPreview(e.target.files[0])
         setUser({ ...user, [e.target.name]: e.target.files[0] })
     }
     function handleChange(e){
@@ -45,14 +48,16 @@ const Profile = () => {
 
         const formData = new FormData()
 
-        await Object.keys(user).forEach(key => {
+        const userFormData = await Object.keys(user).forEach(key => {
             formData.append(key, user[key])
         })
+
+        formData.append('user', userFormData)
 
         const data = await api.patch(`/users/edit/${user._id}`, formData, {
             headers: {
                 Authorization: `Bearer ${JSON.parse(token)}`,
-                'Content-Type': "multipart/form-data"
+                'Content-Type': 'multipart/form-data'
             }
         }).then(response => {
 
@@ -73,7 +78,16 @@ const Profile = () => {
     <div>
         <div className={styles.profile_header}>
             <h1>Perfil</h1>
-            <p>Preview Image</p>
+            {(preview || user.image) && (
+                <RoundedImage
+                 src={
+                   preview
+                     ? URL.createObjectURL(preview) //Process não está sendo execultado OBS: Resolver esse problema
+                     : `http://localhost:5000/images/users/${user.image}`
+                 }
+                 alt={user.name}
+               />
+            )}
         </div>
         <form onSubmit={handleSubmit} className={FormStyles.form_container}>
             <Input

@@ -17,6 +17,7 @@
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^1.0.7",
+    "react-app-env": "^1.2.3",
     "vite": "^2.9.0"
   }
 }
