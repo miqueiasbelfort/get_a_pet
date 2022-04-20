@@ -34,8 +34,9 @@ const MyPets = () => {
       }
     }).then(response => {
 
-      const updatedPets = pets.filter(pet => pet._id != id)
-      setPets(updatedPets)
+      //Atualizar sem prcisar de frameworks
+      const updatedPets = pets.filter(pet => pet._id !== id) //pegar todos os pets menos o que tem o id passado como parametro
+      setPets(updatedPets) //retornar ele no pets
       return response.data
 
     }).catch(err => {
