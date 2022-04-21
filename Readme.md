@@ -27,5 +27,5 @@
 
 ----
 <div align="center">
-    <p>BUIL WITH CARE 🧡 BY MIQUEIAS BELFORT ☑️</p>
+    <p>BUILD WITH CARE 🧡 BY MIQUEIAS BELFORT ☑️</p>
 </div>
