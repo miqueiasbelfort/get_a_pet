@@ -25,7 +25,7 @@ const Home = () => {
         <div className={styles.pet_container}>
           {pets.length > 0 && (
             pets.map(pet => (
-              <div className={styles.pet_card}>
+              <div key={pet._id} className={styles.pet_card}>
 
                 <div style={{backgroundImage: `url(http://localhost:5000/images/pets/${pet.images[0]})`}} className={styles.pet_card_image}></div>
 
