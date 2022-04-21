@@ -22,6 +22,26 @@ const PetDetail = () => {
 
     }, [id])
 
+    async function schedule(){
+
+        let msgType = "success"
+
+        const data = await api.patch(`pets/schedule/${pet._id}`, {
+            headers: {
+                Authorization: `Bearer ${JSON.parse(token)}`,
+            }
+        }).then(response => {
+            return response.data
+        }
+        ).catch(err => {
+            msgType = "error"
+            return err.response.data
+        })
+
+        setFlashMessage(data.message, msgType)
+
+    }
+
   return (
     <>
         {pet.name && (
@@ -46,7 +66,7 @@ const PetDetail = () => {
                     <span className="bold">Idade:</span> {pet.age} anos
                 </p>
                 {token ? (
-                    <button>Solicitar uma visita</button>
+                    <button onClick={schedule}>Solicitar uma visita</button>
                 ) : (
                     <p>Você precisa <Link to="/register">criar uma conta</Link> para solicatar a visita</p>
                 )}
