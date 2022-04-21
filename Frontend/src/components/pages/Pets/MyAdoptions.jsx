@@ -49,7 +49,7 @@ const MyAdoptions = () => {
                         <p>Adoção em processo</p>
                       </>
                     ) : (
-                      <p>Pet já adotado!</p>
+                      <p>Parabéns por adotar o {pet.name}</p>
                     )}
                   </div>
                </div> 
