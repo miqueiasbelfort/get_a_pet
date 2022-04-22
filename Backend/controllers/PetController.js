@@ -279,7 +279,7 @@ module.exports = class PetController {
             image: user.image
         }
 
-        await Pet.findByIdAndUpdate(id, pet)
+        await Pet.findByIdAndUpdate(pet._id, pet)
         res.status(200).json({
             message: `A visita foi agendada com sucesso, entre em contato com ${pet.user.name} pelo telefone ${pet.user.phone}`
         })
